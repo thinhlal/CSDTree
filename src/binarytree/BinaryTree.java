@@ -1,7 +1,7 @@
 package binarytree;
 
 public class BinaryTree {
-
+    
     public static Node createNode(Node root) {
         root = new Node<>(10);
         root.left = new Node<>(20);
@@ -20,9 +20,25 @@ public class BinaryTree {
         }
     }
 
+    public static void LNR(Node root) {
+        if (root != null) {
+            LNR(root.left);
+            System.out.println(root.value);
+            LNR(root.right);
+        }
+    }
+
+    public static void LRN(Node root) {
+        if (root != null) {
+            LRN(root.left);
+            LRN(root.right);
+            System.out.println(root.value);
+        }
+    }
+
     public static void main(String[] args) {
         Node<Integer> root = null;
         root = createNode(root);
-        NLR(root);
+        LRN(root);
     }
 }

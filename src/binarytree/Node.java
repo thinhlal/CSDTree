@@ -3,9 +3,9 @@ package binarytree;
 
 public class Node<E> {
     //Node parent;
-    Node left;
-    Node right;
-    E value;
+    public Node left;
+    public Node right;
+    public E value;
 
     public Node(E value) {
         this.value = value;

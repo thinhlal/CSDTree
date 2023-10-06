@@ -92,12 +92,7 @@ public class BinaryTree<E> {
         System.out.println();
     }
 
-    /*K can thiet
-    public void BFT() {
-        this.BFT(this.root);
-    }*/
-    //Sua lai ham in ra node tai lv VD node 10 lv 0
-    public void BFT(int level) {
+    public void listNodeAtLevel(int level) {
         if (root == null) {
             return;
         }
@@ -105,15 +100,102 @@ public class BinaryTree<E> {
         Queue<Node> q = new LinkedList<Node>();
         q.offer(root);
         while (!q.isEmpty()) {
-            Node<E> currentNode = q.poll();
-            if (currentNode.left != null) {
-                q.offer(currentNode.left);
+            if (cnt == level) {
+                System.out.print("Level " + level + ": ");
+                int currentSize = q.size();
+                Node<E> currentNode;
+                for (int i = 0; i < currentSize; i++) {
+                    currentNode = q.poll();
+                    System.out.printf("%s ", currentNode.value);
+                }
+                System.out.println();
+                return;
             }
-            if (currentNode.right != null) {
-                q.offer(currentNode.right);
+            int currentSize = q.size();
+            for (int i = 0; i < currentSize; i++) {
+                Node<E> currentNode = q.poll();
+                if (currentNode.left != null) {
+                    q.offer(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    q.offer(currentNode.right);
+                }
             }
-            System.out.printf("%s ", currentNode.value);
+            cnt++;
         }
-        System.out.println();
+        System.out.println("Level " + level + " does not exist in the tree.");
+        return;
+    }
+
+    private void BFTRecursive(Queue<Node> q) {
+        if (q.isEmpty()) {
+            return;
+        }
+
+        Node<E> currentNode = q.poll();
+
+        if (currentNode.left != null) {
+            q.offer(currentNode.left);
+        }
+        if (currentNode.right != null) {
+            q.offer(currentNode.right);
+        }
+
+        System.out.printf("%s ", currentNode.value);
+
+        BFTRecursive(q);
+    }
+
+    public void BFTR(Node root) {
+        if (root == null) {
+            return;
+        }
+
+        Queue<Node> q = new LinkedList<Node>();
+        q.offer(root);
+
+        BFTRecursive(q);
+    }
+
+    public void BFTR() {
+        this.BFTR(this.root);
+    }
+
+    public void listInternalNodes(Node<E> node) {
+        if (node == null) {
+            return;
+        }
+
+        if (node.left != null || node.right != null) {
+            System.out.printf("%s ", node.value); // Print the value if it's an internal node
+        }
+
+        listInternalNodes(node.left);
+        listInternalNodes(node.right);
+    }
+
+    public void listLeafNodes(Node<E> node) {
+        if (node == null) {
+            return;
+        }
+
+        if (node.left == null && node.right == null) {
+            System.out.printf("%s ", node.value);
+        }
+
+        listLeafNodes(node.left);
+        listLeafNodes(node.right);
+    }
+
+    public boolean isProper(Node<E> node) {
+        if (node == null) {
+            return true;
+        }
+
+        if ((node.left == null && node.right != null) || (node.left != null && node.right == null)) {
+            return false;
+        }
+
+        return isProper(node.left) && isProper(node.right);
     }
 }

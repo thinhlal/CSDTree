@@ -42,9 +42,7 @@ public class BinaryTreeDemo {
     }
 
     public static void main(String[] args) {
-        BinaryTree<Integer> tree = generate(5);
-        tree.BFT();
-        tree.show();
-
+        BinaryTree<Integer> tree = create();
+        tree.BFTR();
     }
 }

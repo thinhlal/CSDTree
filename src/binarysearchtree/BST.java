@@ -3,7 +3,7 @@ package binarysearchtree;
 import binarytree.BinaryTree;
 import binarytree.Node;
 
-public class BST<E extends Comparable> extends BinaryTree<E> {
+public class BST<E extends Comparable<E>> extends BinaryTree<E> {
 
     public BST() {
     }
@@ -12,7 +12,7 @@ public class BST<E extends Comparable> extends BinaryTree<E> {
         if (root == null) {
             root = new Node(key);
             return root;
-        } else if (key == root.value) {
+        } else if (key.compareTo(root.value) == 0) {
             throw new Exception("This key already exits");
         } else if (key.compareTo(root.value) > 0) {
             root.right = insert(root.right, key);
@@ -53,17 +53,51 @@ public class BST<E extends Comparable> extends BinaryTree<E> {
         }
         return root;
     }
-
+    public void inserts2(E... keys) throws Exception{
+        for (E key : keys) {
+            this.root = this.insert(this.root, key);
+        }
+    }
     public Node<E> search(Node<E> root, E key) {
         if (root == null) {
             return null;
-        } else if (key == root.value) {
+        } else if (key.compareTo(root.value) == 0) {
             return root;
         } else if (key.compareTo(root.value) > 0) {
             return search(root.right, key);
-        } else if (key.compareTo(root.value) < 0) {
+        } else {
             return search(root.left, key);
         }
+    }
+    public void delete(E key) {
+        this.root = this.delete(this.root, key);
+    }
+
+    public Node<E> delete(Node<E> root, E key) {
+        if (root == null) {
+            return null;
+        }
+        if (key.compareTo(root.value) < 0) {
+            root.left = delete(root.left, key);
+        } else if (key.compareTo(root.value) > 0) {
+            root.right = delete(root.right, key);
+        } else {
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+            root.value = findSuccessor(root).value;
+            root.right = delete(root.right, root.value);
+        }
         return root;
+    }
+
+    private Node<E> findSuccessor(Node<E> root) {
+        Node<E> p = root.right;
+        while (p.left != null) {
+            p = p.left;
+        }
+        return p;
     }
 }

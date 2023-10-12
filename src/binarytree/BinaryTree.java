@@ -198,4 +198,30 @@ public class BinaryTree<E> {
 
         return isProper(node.left) && isProper(node.right);
     }
+
+    public boolean isComplete(Node<E> root) {
+        if (root == null) {
+            return true;
+        }
+        Queue<Node<E>> q = new LinkedList<>();
+        q.offer(root);
+        boolean lastLevelNode = false;
+        while (!q.isEmpty()) {
+            Node<E> curNode = q.poll();
+            if (curNode == null) {
+                lastLevelNode = true;
+            } else {
+                if (lastLevelNode) {
+                    return false;
+                }
+                q.offer(curNode.left);
+                q.offer(curNode.right);
+            }
+        }
+        return true;
+    }
+    
+    public boolean isComplete() {
+        return this.isComplete(this.root);
+    }
 }

@@ -199,6 +199,10 @@ public class BinaryTree<E> {
         return isProper(node.left) && isProper(node.right);
     }
 
+    public boolean isProper() {
+        return this.isProper(this.root);
+    }
+
     public boolean isComplete(Node<E> root) {
         if (root == null) {
             return true;
